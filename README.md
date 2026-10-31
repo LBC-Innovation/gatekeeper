@@ -4,15 +4,26 @@
 
 ## Quick start
 
+> ### Claude Code only
+> GateKeeper must be installed and run from **Claude Code**: the terminal, the **Code** tab of the Claude desktop app, or an IDE extension. It does **not** work in **Cowork** or in regular Claude chat. If you paste the prompt below into either, Claude will stop and tell you to switch.
+
 Scouts look outward for signals, a panel of single-job agents argues over what they find, and you get a short queue of decisions with the evidence already assembled. You decide. GateKeeper never does.
 
-**Paste this into Claude Code** and it installs GateKeeper for you:
+**Open Claude Code, paste this, and it installs GateKeeper for you:**
 
-> Install GateKeeper from https://github.com/LBC-Innovation/gatekeeper. Add that repository as a plugin marketplace, install the `gatekeeper` plugin from it, and tell me exactly what I need to do to restart or reload so it takes effect. If anything it needs is missing (it requires either `uv` or Python 3.10 or newer), tell me how to install it.
+```text
+First, work out which Claude product you are running in. GateKeeper can only be installed from Claude Code (the terminal CLI, the Code tab of the Claude desktop app, or an IDE extension).
 
-Then reload, open a new session, and paste the line that starts the main interview:
+If you are in Cowork, in regular Claude chat, or anywhere else, or if you are not certain you are in Claude Code, STOP. Do not run any commands. Do not add a marketplace, install a plugin, create or change any files, or try a workaround. Reply with exactly this and nothing else: "GateKeeper has to be installed from Claude Code, not Cowork or chat. Open Claude Code and paste the same Quick start prompt there."
 
-> Run the gatekeeper-setup interview.
+If you are in Claude Code: install GateKeeper from https://github.com/LBC-Innovation/gatekeeper. Add that repository as a plugin marketplace, install the `gatekeeper` plugin from it, and tell me exactly what I need to do to restart or reload so it takes effect. If anything it needs is missing (it requires either `uv` or Python 3.10 or newer), tell me how to install it.
+```
+
+Then reload, open a new session **in Claude Code**, and paste the line that starts the main interview:
+
+```text
+Run the gatekeeper-setup interview.
+```
 
 Full setup details, requirements and manual commands are at the [bottom of this page](#install-and-set-up).
 
@@ -239,7 +250,7 @@ The [Quick start](#quick-start) prompt at the top does all of this for you. Thes
 
 ### Requirements
 
-- Claude Code (terminal, desktop app Code tab, or IDE).
+- **Claude Code** (terminal, the Code tab of the desktop app, or an IDE extension). **Cowork and regular chat are not supported:** the GateKeeper connector runs a program on your own computer and its skills run local scripts, which those environments do not reliably allow. Install and run it from Claude Code.
 - Either [`uv`](https://docs.astral.sh/uv/) (`brew install uv`) or Python 3.10+. The first launch builds a private Python environment in `~/.gatekeeper/` (seconds with `uv`, about a minute without).
 
 ### Install by hand
