@@ -1,0 +1,16 @@
+{
+  "enabledMcpjsonServers": [
+    "gatekeeper"
+  ],
+  "permissions": {
+    "allow": [
+      "mcp__gatekeeper",
+      "WebSearch",
+      "WebFetch",
+      "Read",
+      "Glob",
+      "Grep",
+      "Bash(bash scripts/dashboard.sh:*)"
+    ]
+  }
+}

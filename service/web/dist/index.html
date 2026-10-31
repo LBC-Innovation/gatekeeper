@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gatekeeper</title>
+<meta name="description" content="Review what the panel found, and decide.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet">
+<script>
+  // Theme before first paint: the stored choice, else the operating system's.
+  (function () {
+    var t = null;
+    try { t = localStorage.getItem('gk-theme'); } catch (e) {}
+    if (!t) t = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
+  <script type="module" crossorigin src="/assets/index-C0sjj8F4.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-mhp-cC3M.css">
+</head>
+<body>
+<div id="root"></div>
+</body>
+</html>

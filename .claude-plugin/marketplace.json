@@ -1,0 +1,13 @@
+{
+  "name": "gatekeeper",
+  "owner": { "name": "zhwatts" },
+  "metadata": { "description": "Gatekeeper: an innovation pipeline for Claude." },
+  "plugins": [
+    {
+      "name": "gatekeeper",
+      "source": "./",
+      "description": "Scouts find signals, a panel deliberates, you decide. Install, then say \"set up Gatekeeper\".",
+      "version": "0.1.0"
+    }
+  ]
+}

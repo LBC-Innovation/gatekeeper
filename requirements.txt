@@ -1,0 +1,7 @@
+# Runtime dependencies for the Gatekeeper service and MCP server (bin/gk installs these on first use).
+mcp>=2.3,<3
+fastapi>=0.162,<1
+pydantic>=2.13,<3
+uvicorn>=0.54,<1
+sse-starlette>=3.5,<4
+python-multipart>=0.0.32

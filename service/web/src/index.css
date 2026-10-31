@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+/* Design tokens (docs/web-app-review/08-design-critique.md, section 4): eight colour roles, nothing below 13px. */
+:root {
+  --canvas: #FAFAF7; --surface: #FFFFFF; --sunken: #F3F2EE;
+  --rule: #E6E4DE; --rule-strong: #D6D3CC;
+  --ink: #1A1A18; --ink-2: #5C5A55;
+  --accent: #1F4E79; --accent-ink: #FFFFFF;
+  --alert: #A3231F; --positive: #2F6B3A;
+  color-scheme: light;
+}
+:root[data-theme="dark"] {
+  --canvas: #141412; --surface: #1C1C1A; --sunken: #181816;
+  --rule: #2E2D2A; --rule-strong: #3E3D39;
+  --ink: #EDEBE6; --ink-2: #A8A59E;
+  --accent: #8DB4DA; --accent-ink: #141412;
+  --alert: #F08A80; --positive: #86C79A;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Newsreader", Georgia, serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-sunken: var(--sunken);
+  --color-rule: var(--rule);
+  --color-rule-strong: var(--rule-strong);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-alert: var(--alert);
+  --color-positive: var(--positive);
+
+  /* The type scale. xs and sm are pinned to 13px so nothing smaller can be reached for by habit. */
+  --text-xs: 13px;  --text-xs--line-height: 20px;
+  --text-sm: 13px;  --text-sm--line-height: 20px;
+  --text-meta: 13px; --text-meta--line-height: 20px;
+  --text-body: 15px; --text-body--line-height: 24px;
+  --text-lead: 17px; --text-lead--line-height: 26px;
+  --text-title: 26px; --text-title--line-height: 34px;
+  --text-display: 32px; --text-display--line-height: 40px;
+}
+
+html, body { background: var(--canvas); color: var(--ink); }
+body { font-family: var(--font-sans); font-size: 15px; line-height: 24px; -webkit-font-smoothing: antialiased; }
+h1, h2, h3, .serif { font-family: var(--font-serif); font-weight: 500; letter-spacing: -0.005em; }
+/* Small section labels are sans, not serif: they are labels, not headings. */
+h1.text-meta, h2.text-meta, h3.text-meta { font-family: var(--font-sans); font-weight: 600; letter-spacing: 0; }
+.measure { max-width: 70ch; }
+.tnum { font-variant-numeric: tabular-nums; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+::selection { background: color-mix(in srgb, var(--accent) 25%, transparent); }
+details > summary { list-style: none; cursor: pointer; }
+details > summary::-webkit-details-marker { display: none; }
+/* Key hints show only where a keyboard is likely: hover-capable screens at laptop width and up. */
+.kbd { font-family: var(--font-mono); font-size: 13px; line-height: 18px; padding: 0 5px; border-radius: 4px; border: 1px solid var(--rule-strong); border-bottom-width: 2px; color: var(--ink-2); background: var(--surface); white-space: nowrap; }
+@media (hover: none), (max-width: 1023px) { .kbd { display: none !important; } }
+@keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
+.rise { animation: rise 220ms cubic-bezier(.2, 0, 0, 1); }
+.live-dot { animation: pulse-dot 1.4s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }

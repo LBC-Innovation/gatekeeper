@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+# Gatekeeper launcher: finds or builds the Python environment, then runs one thing.
+#
+#   gk mcp                    the MCP server over stdio (what the plugin's connector runs)
+#   gk run <script> [args]    a script from scripts/, e.g.  gk run restore_backup.py --list
+#   gk dashboard [action]     start | stop | status | open  (scripts/dashboard.sh)
+#   gk serve [args]           the web service in the foreground (service/serve.py)
+#   gk python [args]          the environment's Python
+#   gk bootstrap              build the environment now and print its Python
+#   gk session-start          what the plugin's SessionStart hook runs
+#
+# Works from anywhere: it never relies on the current folder. The environment is built once, from requirements.txt,
+# into ~/.gatekeeper/venv-<hash> (GATEKEEPER_STATE moves it), so it survives plugin updates and is rebuilt only
+# when requirements.txt changes. A checkout that has its own .venv uses that instead.
+set -euo pipefail
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd -P)"
+STATE="${GATEKEEPER_STATE:-$HOME/.gatekeeper}"
+REQ="$ROOT/requirements.txt"
+
+log() { echo "gatekeeper: $*" >&2; }
+
+build_env() {
+  local hash venv tmp
+  hash="$( (shasum -a 256 "$REQ" 2>/dev/null || sha256sum "$REQ") | cut -c1-12)"
+  venv="$STATE/venv-$hash"
+  if [ -x "$venv/bin/python" ]; then echo "$venv/bin/python"; return; fi
+  mkdir -p "$STATE"
+  tmp="$venv.tmp.$$"
+  rm -rf "$tmp"
+  if command -v uv >/dev/null 2>&1; then
+    log "building the Python environment (uv), first use only"
+    uv venv --quiet --python ">=3.10" "$tmp" >&2
+    uv pip install --quiet --python "$tmp/bin/python" -r "$REQ" >&2
+  else
+    local py3
+    py3="$(command -v python3 || true)"
+    if [ -z "$py3" ] || ! "$py3" -c 'import sys; sys.exit(0 if sys.version_info >= (3, 10) else 1)'; then
+      log "needs Python 3.10 or newer, or uv. Install one:  brew install uv"
+      exit 1
+    fi
+    log "building the Python environment (pip), first use only; this takes about a minute"
+    "$py3" -m venv "$tmp" >&2
+    "$tmp/bin/python" -m pip install --quiet --disable-pip-version-check -r "$REQ" >&2
+  fi
+  # Two launches may build at once; whichever renames first wins and the other discards its copy.
+  if ! mv "$tmp" "$venv" 2>/dev/null; then rm -rf "$tmp"; fi
+  # Old environments from earlier requirements are dead weight.
+  for old in "$STATE"/venv-*; do [ "$old" = "$venv" ] || [ ! -d "$old" ] || rm -rf "$old"; done
+  echo "$venv/bin/python"
+}
+
+find_python() {
+  if [ -x "$ROOT/.venv/bin/python" ]; then echo "$ROOT/.venv/bin/python"; else build_env; fi
+}
+
+cmd="${1:-}"; shift || true
+case "$cmd" in
+  mcp)        PY="$(find_python)"; exec "$PY" "$ROOT/service/gatekeeper_server.py" ;;
+  run)        script="${1:?usage: gk run <script> [args]}"; shift; PY="$(find_python)"; exec "$PY" "$ROOT/scripts/$script" "$@" ;;
+  serve)      PY="$(find_python)"; exec "$PY" "$ROOT/service/serve.py" "$@" ;;
+  python)     PY="$(find_python)"; exec "$PY" "$@" ;;
+  dashboard)  exec bash "$ROOT/scripts/dashboard.sh" "$@" ;;
+  bootstrap)  find_python ;;
+  session-start) PY="$(find_python)"; exec "$PY" "$ROOT/scripts/session_start.py" ;;
+  *) echo "usage: gk mcp | run <script> [args] | dashboard [action] | serve | python | bootstrap | session-start" >&2; exit 64 ;;
+esac

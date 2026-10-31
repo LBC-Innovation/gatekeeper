@@ -1,0 +1,38 @@
+{
+  "name": "gatekeeper",
+  "version": "0.1.0",
+  "description": "An innovation pipeline: scouts find signals, a panel of single-job agents deliberates, you decide. Includes the ledger connector, twelve agents and the setup, run and review skills.",
+  "author": {
+    "name": "zhwatts"
+  },
+  "keywords": [
+    "innovation",
+    "portfolio",
+    "agents",
+    "mcp"
+  ],
+  "skills": "./claude-config/skills",
+  "agents": [
+    "./claude-config/agents/gatekeeper-analyst.md",
+    "./claude-config/agents/gatekeeper-arbiter.md",
+    "./claude-config/agents/gatekeeper-calibrator.md",
+    "./claude-config/agents/gatekeeper-cartographer.md",
+    "./claude-config/agents/gatekeeper-curator.md",
+    "./claude-config/agents/gatekeeper-framer.md",
+    "./claude-config/agents/gatekeeper-herald.md",
+    "./claude-config/agents/gatekeeper-inventor.md",
+    "./claude-config/agents/gatekeeper-redteam.md",
+    "./claude-config/agents/gatekeeper-registrar.md",
+    "./claude-config/agents/gatekeeper-scout.md",
+    "./claude-config/agents/gatekeeper-steward.md"
+  ],
+  "hooks": "./hooks/hooks.json",
+  "mcpServers": {
+    "gatekeeper": {
+      "command": "${CLAUDE_PLUGIN_ROOT}/bin/gk",
+      "args": [
+        "mcp"
+      ]
+    }
+  }
+}
