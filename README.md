@@ -1,64 +1,107 @@
 # GateKeeper
 
-**An idea-generation, screening and portfolio-management pipeline that runs inside Claude.** Scouts look outward for signals, a panel of single-job agents argues over what they find, and you get a short queue of decisions with the evidence already assembled. You decide. GateKeeper never does.
+## A product of LBCInnovation.com
 
-It is a Claude Code plugin: one install brings the ledger connector, twelve agents, the skills and a local web dashboard.
+## Quick start
 
----
+Scouts look outward for signals, a panel of single-job agents argues over what they find, and you get a short queue of decisions with the evidence already assembled. You decide. GateKeeper never does.
 
-## Get started (about five minutes, then a forty-five minute interview)
-
-You do not need to run any commands yourself. Your Claude can install GateKeeper and start the interview for you.
-
-### 1. Copy this prompt into Claude Code
+**Paste this into Claude Code** and it installs GateKeeper for you:
 
 > Install GateKeeper from https://github.com/LBC-Innovation/gatekeeper. Add that repository as a plugin marketplace, install the `gatekeeper` plugin from it, and tell me exactly what I need to do to restart or reload so it takes effect. If anything it needs is missing (it requires either `uv` or Python 3.10 or newer), tell me how to install it.
 
-### 2. Reload, then copy this prompt to start the main interview
-
-Once Claude says the plugin is installed, restart Claude Code (or run `/reload-plugins`), open a new session, and paste:
+Then reload, open a new session, and paste the line that starts the main interview:
 
 > Run the gatekeeper-setup interview.
 
-That starts the seven-step setup. It reads your company's public record first, then asks only what it cannot read. It can stop and resume at any step. A new session will also offer to start it for you until setup is finished.
-
-### Prefer to type it yourself?
-
-```
-/plugin marketplace add LBC-Innovation/gatekeeper
-/plugin install gatekeeper@gatekeeper
-```
-
-Then reload and say **"Run the gatekeeper-setup interview."**
-
-### What to expect
-
-- **Requirements:** Claude Code (terminal, desktop app Code tab, or IDE), and either [`uv`](https://docs.astral.sh/uv/) (`brew install uv`) or Python 3.10+. The first launch builds a private Python environment in `~/.gatekeeper/` (seconds with `uv`, about a minute without).
-- **Your data stays on your machine.** The ledger, briefs, backups and the `inbox/` folder live in `~/Gatekeeper/` (set `GATEKEEPER_HOME` to move it). Plugin updates never touch it.
-- **Approvals:** until you allow the connector, Claude asks before each GateKeeper tool call. Setup offers to add `mcp__plugin_gatekeeper_gatekeeper` to your allowed permissions.
-- **Update later:** `/plugin marketplace update gatekeeper`.
-
-### The seven steps of the interview
-
-| Step | What happens |
-| --- | --- |
-| 1. Read the public record | Claude reads your company's public sources and drafts a profile, with a URL for every fact |
-| 2. Confirm and correct | You fix the draft. Correcting beats authoring from a blank page |
-| 3. What it cannot read | Strategic directives, what you are hunting for (offerings, processes, business models), what is off limits, your target mix, your watch list |
-| 4. What is not public | Current product lines, work already in flight, capabilities, where the portfolio hurts |
-| 5. Assemble the team | Which agents play and which sit out |
-| 6. Set the weights | A few dials, anchored to decisions you have already made |
-| 7. Calibrate | Past ideas you funded and killed, so the panel can be checked against your judgement |
-
-When it is done, say **"Run gatekeeper-run"** to watch the first board fill.
+Full setup details, requirements and manual commands are at the [bottom of this page](#install-and-set-up).
 
 ---
 
-## What it is for
+## Contents
+
+1. [What it is and what it is for](#what-it-is-and-what-it-is-for)
+2. [Key terms](#key-terms)
+3. [Why it is built this way](#why-it-is-built-this-way)
+   - [Ideas are cheap; the system around them is the work](#ideas-are-cheap-the-system-around-them-is-the-work)
+   - [Three barriers that keep good ideas out](#three-barriers-that-keep-good-ideas-out)
+   - [The dimensions of innovation](#the-dimensions-of-innovation-core-adjacent-transformational)
+   - [How breakthroughs happen](#how-breakthroughs-happen)
+   - [Screening: stage gates](#screening-stage-gates-kept-rigorous-and-flexible)
+   - [Where AI fits, and where it must not](#where-ai-fits-and-where-it-must-not)
+4. [How it works](#how-it-works)
+5. [Using it](#using-it)
+6. [What is enforced in code](#what-is-enforced-in-code-not-in-prompts)
+7. [Not built yet](#not-built-yet)
+8. [Install and set up](#install-and-set-up)
+9. [For developers](#for-developers)
+
+---
+
+## What it is and what it is for
+
+GateKeeper is an **idea-generation, screening and portfolio-management pipeline** that runs inside Claude. It is a Claude Code plugin: one install brings the ledger connector, twelve agents, the skills and a local web dashboard.
 
 Most organizations do not lack ideas. They lack a disciplined way to find the right ones, screen the rest out early and cheaply, and keep a balanced set of bets. GateKeeper is that discipline, run by agents and kept honest by code.
 
 An idea pipeline is a **funnel**: you generate more ideas than you will ever launch, and a series of screens removes the unattractive ones so that the ones that come out the far end have the highest probability and the highest impact. GateKeeper runs that funnel for you every day or week and hands you only the decisions that need a person.
+
+## Key terms
+
+GateKeeper has its own vocabulary. This table says what each word means here and the idea in innovation management it comes from. Read it top to bottom once: the terms follow the order an idea travels.
+
+**An idea's path:** signal → problem → candidate → reviewed idea → your decision.
+
+### The funnel, in order
+
+| Term | What it means in GateKeeper | The idea behind it |
+| --- | --- | --- |
+| **Signal** | A cited observation that something in the world is changing, filed by a Scout. It carries a title, a source URL, the date it was retrieved and a quoted excerpt. A signal is **not an idea** and not yet a problem: it is raw evidence of change, the very start of the funnel | Innovation starts from a change, not from a brainstorm. The *sources of innovation* (unexpected occurrences, incongruities, process needs, industry change, demographics, perception shifts, new knowledge) are where opportunity shows up first. Looking outward for change is how a company avoids listening only to its current market |
+| **Opportunity area** (also **sensor**) | One of seven places a Scout looks. Each area has its own search terms | The seven *sources of innovation*, one Scout per source, so no single viewpoint dominates |
+| **Watch list** | The public search terms you approve for each external area. Internal areas read your own exports from `inbox/` | Observation beats opinion: external areas use real-world evidence, internal areas use what your own data actually shows, not what people say in a survey |
+| **Novelty** | A 0-to-1 score for how new a signal is **to your ledger**, not to the world. Below the *novelty floor* (0.35 by default) it is dropped | The funnel must eliminate "old things wearing new clothes". Attention is the scarce resource, so repeats and near-duplicates are filtered out |
+| **Kept / dropped** | The Curator's verdict on every signal, with a one-line reason. A drop is a decision too | The first screen. Most inputs should not survive, and the reasons are recorded so the filter can be improved |
+| **Problem** | A signal turned into a stated problem: who has it, why it matters now, and what it is not. Written by the Framer | Define before you develop. A *technology broker* works with a specific problem in mind, which is what lets recombination aim at something. It also guards against *user myopia*, where users propose solutions rather than state needs |
+| **Candidate** (also **idea**) | A proposed solution to one problem, drafted by the Inventor. Up to six per problem, each different in mechanism, each tagged with the technique that produced it | The *develop* half of the Double Diamond: diverge again, widen the options before choosing |
+| **Technique** | One of four ways the Inventor generates candidates: forced relationship, compare and contrast, forced solutions, compounding | Structured idea generation beats unstructured brainstorming. Several of these deliberately carry a mechanism across from an unrelated field, because breakthroughs recombine knowledge from different domains |
+| **Four P's** | Every idea is tagged **product, process, position** (who you sell to, how you are seen) or **paradigm** (what business you are in) | Innovation is not only products. Process and business-model innovation are first-class, so GateKeeper does not default to "a new product" |
+| **First check** | The smallest commitment that would retire the biggest uncertainty about an idea | *Fail cheap, fail quick, learn fast.* Invest incrementally, and learn before you spend. Every candidate arrives with one |
+
+### Judging and deciding
+
+| Term | What it means in GateKeeper | The idea behind it |
+| --- | --- | --- |
+| **Ambition cell** | Where an idea sits on the innovation map: **core** (existing customers, existing offerings), **adjacent** (one of those is new), **transformational** (both are new) | The *dimensions of innovation*: incremental versus adjacent versus radical, defined by how new the technology and the market are. See [the dimensions](#the-dimensions-of-innovation-core-adjacent-transformational) |
+| **Mix target** | The share of your portfolio you want in each cell. Default: 60% core, 30% adjacent, 10% transformational (tolerance 5 points) | A portfolio, not a pile of look-alike projects. Balance risk and reward across the set |
+| **Exploratory floor** | The minimum number of live transformational items you want to keep alive (default 2). The Steward raises an alarm below it | Protects the long bets from being crowded out by safe, incremental work |
+| **Gate** | A checkpoint where an idea gets a go, kill, hold or recycle answer. The **Analyst gate** is the first: a score below 0.30 parks the idea | The *stage-gate* process: a disciplined, cross-functional review at each stage, fast and cheap early and stricter later |
+| **Readiness** | How ready an idea is for **its next gate**, scored by the Registrar on six dimensions. It is not a verdict on the idea's merit. Low readiness means "find out first", not "bad idea" | Evidence requirements grow gate by gate. Demanding a launch plan from an idea framed this morning would kill every idea |
+| **Panel** | The agents that judge an idea: Analyst, Steward, Registrar and Red Team. Each has one job and none can see the others' first-round work | A multidisciplinary team in which each function judges from its own seat. Independent first judgments avoid anchoring on the loudest voice |
+| **Round 1 / Round 2** | Round 1 is independent and blind. Round 2 happens only if the panel is split or Red Team raised a serious objection; reviewers see the others' reasons, anonymized, and may revise once, giving a reason | Disagreement is information. Where one reviewer sees a five and another a one, that is the most valuable conversation. A large spread means gather more information |
+| **Objection** and **severity** | The Red Team's strongest argument against an idea, with a 0-to-1 severity. At 0.70 or more, it puts the idea in your queue no matter its score | Ask "what is wrong with this?" rather than "do you like it?" Criticism is kept beside the score and never averaged away |
+| **Score, band, spread** | **Score** blends the Analyst and Steward. **Band** is the Red Team's confidence band. **Spread** is how far apart the voters were | Keep weighting coarse; precision beyond what the evidence supports is false comfort |
+| **Action** | What the system recommends for an idea: `PROMOTE`, `NEED_EVIDENCE`, `PARK`, `CONSIDER`, `CONTESTED`, `REVIEW_OBJECTION` | The gate outcomes (go, hold, recycle, kill), made explicit so nothing is decided silently |
+| **Board / queue / brief** | The **board** is every ranked idea. The **queue** is the at most three that need *you*. The **brief** is the short written summary of a run | Attention is the scarce resource when supply of ideas is unlimited, so filtering is the capability that matters |
+| **Decision** | Your answer on a queued idea: `promote`, `kill`, `park`, `need_evidence` or `keep`, with a one-line reason | Judgement stays with the accountable person, and the reason is how the system learns what you value |
+| **Default** | What happens to a queued item you do not decide by its date (seven days). Always conservative (park or need evidence) and recorded as a default, never as your decision | Guards against ideas drifting forward by inertia, and against *escalation bias* |
+| **Kill trigger** | Two automatic kill recommendations: **stall** (idle far longer than the usual gap between events) and **drift** (the directive it served has been retired). A kill recommendation defaults to kill; keeping it needs a written reason | Do not keep funding what no longer fits. Make stopping a normal, recorded event rather than a quiet failure |
+
+### Your setup and the ledger
+
+| Term | What it means in GateKeeper | The idea behind it |
+| --- | --- | --- |
+| **Directive** | A funded strategic priority you confirm in setup, with a horizon | *Fit with strategy* is the first screening question at every gate |
+| **Portfolio line** / **in flight** | A product or service you sell today / work already funded and under way | You cannot judge cannibalization or balance without knowing the real book of business |
+| **Capability** | What your organization can do, with its maturity, plus what you could acquire within a year | A *core competence* is an asset, but one applied to every decision hardens into a *core rigidity*. The panel checks fit **and** flags where a capability must be extended |
+| **Exemplar** | A past idea of yours with its known outcome: funded and glad, funded and regretted, killed, killed and regretted | Calibration against decisions you have already made, so the panel's taste can be checked against your judgement |
+| **Calibration** | Comparing the panel's ranking with your decisions and your own ordering, then **proposing** changes to weights or rules. Nothing changes unless you accept | A learning system, with the person as final authority |
+| **Protected idea** | An idea you submit yourself. It stays on the board, unscored, and no default action ever applies to it | Prevents the system from quietly parking the sponsor's own conviction |
+| **Bench** | An agent you choose to leave out of the run (the Analyst and Registrar always play) | Match the team to the decision; every seat costs time |
+| **Claim** | A figure with its evidence attached: either **sourced** (URL, retrieval date, quoted excerpt) or an **estimate** (confidence and basis). A number with neither is rejected | Know what you know versus what you are guessing |
+| **Ledger** | The append-only database of everything above. Facts and judgments cannot be edited or deleted after the fact | An auditable record: every number on the board can be reproduced by hand |
+| **Run** | One pass of the pipeline, from scouting to the brief | The funnel in motion, on a schedule you choose |
+
+---
 
 ## Why it is built this way
 
@@ -78,7 +121,7 @@ A culture that minimizes these barriers rewards intelligent failure, never confu
 
 ### The dimensions of innovation: core, adjacent, transformational
 
-Innovation varies along two axes: how new the **technology** is and how new the **market** is. GateKeeper places every idea in one of three cells (the "ambition cell") and manages the mix:
+Innovation varies along two axes: how new the **technology** is and how new the **market** is. GateKeeper places every idea in one of three cells (the *ambition cell*) and manages the mix:
 
 | Cell | Definition | Character |
 | --- | --- | --- |
@@ -86,7 +129,7 @@ Innovation varies along two axes: how new the **technology** is and how new the 
 | **Adjacent** | One of the two is new: a technology you already do well applied to a new market, or a new technology for the market you know. A stretch, but a bounded one | Moderate risk, moderate reward |
 | **Transformational** (radical) | Both are new: a new-to-the-world technology reaching a new-to-the-world market | Highest uncertainty and unusual outside startups, but the source of step changes |
 
-A portfolio should not be all one thing. If you hold too many high-risk, high-payoff projects, you hold some on the launch pad until the balance is right. The default target mix is **60% core, 30% adjacent, 10% transformational** (you set your own in step 3), and the **Steward** agent watches it. One queue slot is always reserved for the best transformational idea, ranked on the panel's score alone, so that your past preferences cannot crowd out exploration.
+A portfolio should not be all one thing. If you hold too many high-risk, high-payoff projects, you hold some on the launch pad until the balance is right. The default target mix is **60% core, 30% adjacent, 10% transformational** (you set your own in setup), and the **Steward** agent watches it. One queue slot is always reserved for the best transformational idea, ranked on the panel's score alone, so that your past preferences cannot crowd out exploration.
 
 Risk and reward travel together along a diagonal: low risk and low reward, moderate and moderate, high and high. Low-risk, high-reward is rare, and high-risk, low-reward is not worth funding unless you need the learning. The panel scores against exactly that.
 
@@ -187,6 +230,49 @@ Decisions are `promote`, `kill`, `park`, `need_evidence`, or `keep` (to answer a
 ## Not built yet
 
 The S-curve renewal-timing estimator (when to launch the next generation before the current one plateaus), competitive-preemption and window-closed kill triggers, resurrection of killed ideas, and hosted access from a phone.
+
+---
+
+## Install and set up
+
+The [Quick start](#quick-start) prompt at the top does all of this for you. These are the details behind it.
+
+### Requirements
+
+- Claude Code (terminal, desktop app Code tab, or IDE).
+- Either [`uv`](https://docs.astral.sh/uv/) (`brew install uv`) or Python 3.10+. The first launch builds a private Python environment in `~/.gatekeeper/` (seconds with `uv`, about a minute without).
+
+### Install by hand
+
+```
+/plugin marketplace add LBC-Innovation/gatekeeper
+/plugin install gatekeeper@gatekeeper
+```
+
+Then restart Claude Code (or run `/reload-plugins`), open a new session, and say **"Run the gatekeeper-setup interview."** A new session will also offer to start it for you until setup is finished.
+
+### What to expect
+
+- **Your data stays on your machine.** The ledger, briefs, backups and the `inbox/` folder live in `~/Gatekeeper/` (set `GATEKEEPER_HOME` to move it). Plugin updates never touch it.
+- **Approvals.** Until you allow the connector, Claude asks before each GateKeeper tool call. Setup offers to add `mcp__plugin_gatekeeper_gatekeeper` to your allowed permissions.
+- **Optional backlog check.** Set `GATEKEEPER_ADO_DB` to point at an Azure DevOps snapshot. Without it that one feature says it is not connected and everything else works.
+- **Update later:** `/plugin marketplace update gatekeeper`.
+
+### The seven steps of the interview
+
+It takes about forty-five minutes, reads your company's public record first, asks only what it cannot read, and can stop and resume at any step.
+
+| Step | What happens |
+| --- | --- |
+| 1. Read the public record | Claude reads your company's public sources and drafts a profile, with a URL for every fact |
+| 2. Confirm and correct | You fix the draft. Correcting beats authoring from a blank page |
+| 3. What it cannot read | Strategic directives, what you are hunting for (offerings, processes, business models), what is off limits, your target mix, your watch list |
+| 4. What is not public | Current product lines, work already in flight, capabilities, where the portfolio hurts |
+| 5. Assemble the team | Which agents play and which sit out |
+| 6. Set the weights | A few dials, anchored to decisions you have already made |
+| 7. Calibrate | Past ideas you funded and killed, so the panel can be checked against your judgement |
+
+When it is done, say **"Run gatekeeper-run"** to watch the first board fill.
 
 ---
 
