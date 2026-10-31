@@ -1,4 +1,4 @@
-"""One named regression test per defect found in the run-4 review (docs/web-app-review/06, section 2).
+"""One named regression test per defect found in the run-4 review.
 
 Each is built from the shape of the real run: seven ideas for a panel capped at five, round-2 scores that fall,
 claim ids above 100, and a decision queue that is already full when a serious objection arrives.

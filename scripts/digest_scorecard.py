@@ -1,12 +1,11 @@
 """Score the weekly digest test: did the person decide, or did defaults decide for them?
 
 Usage:
-    .venv/bin/python scripts/digest_scorecard.py --since 2026-10-28 [--db data/gatekeeper.db]
+    bin/gk run digest_scorecard.py --since 2026-10-28 [--db <home>/data/gatekeeper.db]
 
 Reads the database read-only. Counts queue items created on or after --since, and how
 each one closed: by the person before its default date, by the person late, by default,
-or still open. Pass bar from docs/web-app-review/04-digest-test-plan.md: 60% decided by
-the person on time, and at least one first check funded.
+or still open. Pass bar: 60% decided by the person on time, and at least one first check funded.
 """
 
 from __future__ import annotations

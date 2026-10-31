@@ -73,14 +73,14 @@ A kill recommendation defaults to kill. Keeping the idea requires a reason, and 
 - Weekly, the Calibrator proposes weight, taste or rule changes, each citing the decisions behind it. You accept or reject. Nothing changes without you.
 - `what_if_weights` previews any change against the exemplars and the live board before you commit.
 
-## Course concepts this implements
+## Concepts this implements
 
 | Concept | Where |
 | --- | --- |
-| Stage-gate checkpoint requirements (Week 8) | Registrar's six readiness dimensions, judged for the gate the idea is at (its first check) |
-| Invest late, fail early; real options (Week 11) | Every candidate's first check; kill defaults; time-to-kill |
-| Psychological safety, Edmondson (Week 11) | Red Team absorbs the social cost of the objection; blind to sponsor |
-| Fitzgerald, two opposing ideas (Week 1C) | Objection kept beside the score as a band, never averaged away |
-| Ambition matrix, portfolio balance (Week 2B) | Steward's mix effect, alarms, reserved exploratory slot |
-| Drucker's seven sources (Week 2A) | One scout per opportunity area |
-| Activity vs impact metrics (Week 2A) | Run counts vs decisions, kills and calibration agreement |
+| Stage-gate checkpoint requirements | Registrar's six readiness dimensions, judged for the gate the idea is at (its first check) |
+| Invest late, fail early; real options | Every candidate's first check; kill defaults; time-to-kill |
+| Psychological safety, Edmondson | Red Team absorbs the social cost of the objection; blind to sponsor |
+| Fitzgerald, two opposing ideas | Objection kept beside the score as a band, never averaged away |
+| Ambition matrix, portfolio balance | Steward's mix effect, alarms, reserved exploratory slot |
+| Drucker's seven sources | One scout per opportunity area |
+| Activity vs impact metrics | Run counts vs decisions, kills and calibration agreement |

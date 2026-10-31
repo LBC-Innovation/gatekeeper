@@ -1,6 +1,6 @@
 ---
 name: gatekeeper-digest
-description: Write the weekly Gatekeeper digest, an email the person can reply to in order to decide, and record their replies as decisions. Use when the person says "write this week's digest", "weekly digest", "draft the digest email", or "record this reply" during the digest test (docs/web-app-review/04-digest-test-plan.md).
+description: Write the weekly Gatekeeper digest, an email the person can reply to in order to decide, and record their replies as decisions. Use when the person says "write this week's digest", "weekly digest", "draft the digest email", or "record this reply" during the digest test .
 ---
 
 # Weekly digest
@@ -23,7 +23,7 @@ The lead is the queued item whose decision changes the most. Prefer, in order: a
 
 ### 3. Write
 
-Save to `digests/YYYY-MM-DD.md` (today's date) with exactly this structure:
+Save to `YYYY-MM-DD.md` (today's date) in the `digests` folder inside the Gatekeeper home (`get_setup_status` returns the home path as `home`) with exactly this structure:
 
 ```markdown
 Subject: <lead in plain words, under 60 characters> · <n> decisions by <weekday d Mon>
@@ -96,4 +96,4 @@ The person (or the operator, pasting the person's email) gives a reply. Record o
 
 - The reason is their words, unpolished. If they gave no reason, ask for one line before recording. `decide` rejects reasons under three words.
 - If the reply is ambiguous ("looks good"), ask which action they mean. Do not pick one.
-- After recording, add a row to the log in `docs/web-app-review/04-digest-test-plan.md`: week, participant, replied, decided by person, reason given, why-questions.
+- After recording, add a row to `log.md` in that same `digests` folder: week, participant, replied, decided by person, reason given, why-questions.

@@ -35,7 +35,7 @@ def state() -> Path:
 
 def ensure_home() -> Path:
     h = home()
-    for sub in ("data", "context", "briefs", "inbox"):
+    for sub in ("data", "context", "briefs", "inbox", "digests"):
         (h / sub).mkdir(parents=True, exist_ok=True)
     note = h / "inbox" / "README.md"
     if not note.exists():

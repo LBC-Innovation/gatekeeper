@@ -597,6 +597,7 @@ class Gatekeeper(BacklogMixin):
             "taste": taste,
             "examples": self._recent_examples(),
             "signals_per_sensor": r["signals_per_sensor"],
+            "inbox": str(self.home / "inbox"),
             "hygiene": "Compose search queries only from these terms. Never put directive wording, "
                        "backlog items or internal data into a public query.",
         }
@@ -714,7 +715,8 @@ class Gatekeeper(BacklogMixin):
         ]
         out = [{"step": s, "done": d, "what": w} for s, d, w in steps]
         nxt = next((s for s in out if not s["done"]), None)
-        return {"steps": out, "complete": nxt is None, "next_step": nxt["step"] if nxt else None}
+        return {"steps": out, "complete": nxt is None, "next_step": nxt["step"] if nxt else None,
+                "home": str(self.home), "inbox": str(self.home / "inbox")}
 
     # ------------------------------------------------------------------ runs
 

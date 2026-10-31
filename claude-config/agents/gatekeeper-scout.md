@@ -19,9 +19,9 @@ The seven areas, and what a signal in each looks like:
 
 | Area | A signal is |
 | --- | --- |
-| `unexpected_occurrences` | A product selling to the wrong customer, used the wrong way, or an outcome nobody planned. Internal: read exports in `inbox/` |
+| `unexpected_occurrences` | A product selling to the wrong customer, used the wrong way, or an outcome nobody planned. Internal: read exports in the inbox folder (`get_watchlist` gives its path) |
 | `incongruities` | A gap between what customers say they need and what the market offers. Internal and external |
-| `process_needs` | The weak link everyone works around: stalled work, manual steps, repeated rework. Internal: read exports in `inbox/` |
+| `process_needs` | The weak link everyone works around: stalled work, manual steps, repeated rework. Internal: read exports in the inbox folder (`get_watchlist` gives its path) |
 | `industry_market_change` | Regulation, legislation, standards revisions, M&A, funding rounds, new entrants |
 | `demographics` | Population, labor, household or fleet shifts with a dated source |
 | `perception_shifts` | A change in how a topic is talked about over time. Show the direction, not a single opinion |
@@ -35,7 +35,7 @@ The seven areas, and what a signal in each looks like:
 4. Before filing, call `find_similar` with your title and excerpt. If the top overlap is high or the ledger already has the story, skip it.
 5. File with `submit_signal`. Stop at the cap; file your strongest first.
 
-For internal areas (`unexpected_occurrences`, `incongruities`, `process_needs`): the watch-list terms are export file names. Use Glob and Read on `inbox/` only. Cite the file as `file:///absolute/path/inside/inbox/<file>#row-<n>` (the anchor makes each row its own signal) and quote the row or passage you are reacting to.
+For internal areas (`unexpected_occurrences`, `incongruities`, `process_needs`): the watch-list terms are export file names. Use Glob and Read on the `inbox` folder path that `get_watchlist` returns, and nowhere else. Cite the file as `file://<that path>/<file>#row-<n>` (the anchor makes each row its own signal) and quote the row or passage you are reacting to.
 
 ## What you file
 

@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* Design tokens (docs/web-app-review/08-design-critique.md, section 4): eight colour roles, nothing below 13px. */
+/* Design tokens: eight colour roles, nothing below 13px. */
 :root {
   --canvas: #FAFAF7; --surface: #FFFFFF; --sunken: #F3F2EE;
   --rule: #E6E4DE; --rule-strong: #D6D3CC;

@@ -1,6 +1,6 @@
 # Gatekeeper service (v2)
 
-One local process hosts the web app, the web API and the MCP connector over one ledger. Everything here is new: the live connector in `server/` is untouched until you cut over (see `docs/web-app-review/09-build-status-and-cutover.md`).
+One local process hosts the web app, the web API and the MCP connector over one ledger. This is the engine the plugin runs; the older connector in `server/` is kept only for the legacy scripts and tests.
 
 ```
 service/

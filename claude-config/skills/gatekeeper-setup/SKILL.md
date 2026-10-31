@@ -56,7 +56,7 @@ Save: `set_config("strategy", {...}, reason)`. The connector validates the shape
 
 The first two are not optional; without them the Steward cannot judge balance and the pipeline will recommend things already in flight.
 
-1. **Current lines.** "List the product and service lines you sell today." Any format: a pasted list, or an export dropped into `inbox/` that you read. For each, ask or propose its cell (core, adjacent, transformational) and confirm. `add_portfolio_item(kind="line", ..., source="told by the person in setup")`.
+1. **Current lines.** "List the product and service lines you sell today." Any format: a pasted list, or an export dropped into the inbox folder that you read (`get_setup_status` returns its path as `inbox`; tell the person where it is). For each, ask or propose its cell (core, adjacent, transformational) and confirm. `add_portfolio_item(kind="line", ..., source="told by the person in setup")`.
 2. **In flight.** "What is already funded and in progress?" Same treatment with `kind="in_flight"`.
 3. **Capabilities.** Draft from the profile; ask maturity (research, prototype, production) for each. Then: "What could you get within a year if you had to, and how: hire, partner, buy or build?" Save `set_config("capabilities", ...)`.
 4. **Two questions for later.** "Which idea did you kill and still regret?" and "Where does the portfolio actually hurt?" Keep the regret for step 7. Add the pain points to the profile as `pain_points` and save the full profile again (it keeps its confirmation).
